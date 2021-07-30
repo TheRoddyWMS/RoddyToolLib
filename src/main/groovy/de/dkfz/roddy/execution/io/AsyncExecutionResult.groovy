@@ -1,5 +1,8 @@
 package de.dkfz.roddy.execution.io
 
+import groovy.transform.CompileStatic
+
+import java.util.concurrent.ExecutionException
 import java.util.concurrent.Future
 import java.util.concurrent.CompletableFuture
 
@@ -11,6 +14,7 @@ import java.util.concurrent.CompletableFuture
  *
  */
 
+@CompileStatic
 class AsyncExecutionResult extends ExecutionResult {
 
     private final Future<Integer> exitCodeF
@@ -47,30 +51,53 @@ class AsyncExecutionResult extends ExecutionResult {
         new ExecutionResult(command, successful, exitCode, stdout, stderr, processID)
     }
 
+    /**
+     * Wrap a Future.get() call into this, to unpack the ExecutionException it raises if the
+     * code executed by the future throws an exception. Thus, an internal TimeoutException will be
+     * returned like a future's TimeoutException.
+     */
+    private static <V> V withUnpackedExecutionException(Closure<V> block) {
+        try {
+            block.call()
+        } catch (ExecutionException e) {
+            throw e.cause
+        }
+    }
+
     @Override
     int getExitCode() {
-        return exitCodeF.get()
+        return withUnpackedExecutionException {
+            exitCodeF.get()
+        }
     }
 
 
     @Override
     List<String> getStdout() {
-        return this.stdoutF.get()
+        return withUnpackedExecutionException {
+            this.stdoutF.get()
+        }
     }
 
     @Override
     List<String> getStderr() {
-        return this.stderrF.get()
+        return withUnpackedExecutionException {
+            this.stderrF.get()
+        }
     }
 
     @Override
     boolean isSuccessful() {
-        return successfulF.get()
+        return withUnpackedExecutionException {
+            successfulF.get()
+        }
     }
 
     @Override
     boolean getSuccessful() {
-        return successfulF.get()
+        return withUnpackedExecutionException {
+            successfulF.get()
+        }
     }
 
 }
