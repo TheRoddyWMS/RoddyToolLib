@@ -20,6 +20,7 @@ import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 import java.util.function.Supplier
+import java.util.stream.Collectors
 
 @CompileStatic
 class LocalExecutionHelper {
@@ -76,7 +77,7 @@ class LocalExecutionHelper {
 
     static List<String> readStringStream(InputStream inputStream) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))
-        reader.lines().toArray() as List<String>
+        return reader.lines().collect(Collectors.toList())
     }
 
     /** Read from an InputStream asynchronously using the executorService.
@@ -87,7 +88,7 @@ class LocalExecutionHelper {
             ExecutorService executorService) {
         return CompletableFuture.supplyAsync({
             readStringStream(inputStream)
-        } as Supplier<List<String>>, executorService)
+        }, executorService)
     }
 
     static List<String> readStringStream(
@@ -121,7 +122,7 @@ class LocalExecutionHelper {
 
     /**
      * TODO Remove this backwards-compatibility function in version 3. Set default waitFor=true
-     *      on new  signature function.
+     *      on new signature function.
      */
     @Deprecated
     static ExecutionResult executeCommandWithExtendedResult(
@@ -133,15 +134,11 @@ class LocalExecutionHelper {
     }
 
 
-        /**
+    /**
      * Execute a command using the local command interpreter Bash (currently fixed).
      *
      * If outputStream is set, the full output is going to this stream. Otherwise it is stored
      * in the returned object.
-     *
-     * @param command
-     * @param outputStream
-     * @return
      */
     static ExecutionResult executeCommandWithExtendedResult(
             String command,
@@ -154,13 +151,14 @@ class LocalExecutionHelper {
         ProcessBuilder processBuilder = new ProcessBuilder(bashCommand)
         Process process = processBuilder.start()
         Future<List<String>> stdoutF
-        if (outputStream == null)
+        if (outputStream == null) {
             stdoutF = asyncReadStringStream(process.inputStream, executorService)
-        else
+        } else {
             stdoutF = asyncReadStringStream(process.inputStream, executorService, outputStream)
-        Future<List<String>> stderrF =
+        }
+        CompletableFuture<List<String>> stderrF =
                 asyncReadStringStream(process.errorStream, executorService)
-        Future<Integer> exitCodeF = CompletableFuture.supplyAsync({
+        CompletableFuture<Integer> exitCodeF = CompletableFuture.supplyAsync({
             Integer result
             if (timeout != Duration.ZERO) {
                 // To ensure the command is actually terminated and for better error reporting
@@ -179,14 +177,14 @@ class LocalExecutionHelper {
                 result = process.waitFor()
             }
             return result
-        } as Supplier<Integer>, executorService)
+        }, executorService)
 
         AsyncExecutionResult result = new AsyncExecutionResult(
                 bashCommand,
                 getProcessID(process),
                 exitCodeF, stdoutF, stderrF)
         if (waitFor) {
-            return result.asExecutionResult()
+            return result.asSynchronousExecutionResult()
         } else {
             return result
         }

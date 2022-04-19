@@ -47,21 +47,8 @@ class AsyncExecutionResult extends ExecutionResult {
     /** Convert the asynchronous result into a synchronous one. This will obviously block until
      *  the referee process is finished.
      */
-    ExecutionResult asExecutionResult() {
+    ExecutionResult asSynchronousExecutionResult() {
         return new ExecutionResult(command, successful, exitCode, stdout, stderr, processID)
-    }
-
-    /**
-     * Wrap a Future.get() call into this, to unpack the ExecutionException it raises if the
-     * code executed by the future throws an exception. Thus, an internal TimeoutException will be
-     * returned like a future's TimeoutException.
-     */
-    private static <V> V withUnpackedExecutionException(Closure<V> block) {
-        try {
-            block.call()
-        } catch (ExecutionException e) {
-            throw e.cause
-        }
     }
 
     @Override
@@ -97,6 +84,19 @@ class AsyncExecutionResult extends ExecutionResult {
     boolean getSuccessful() {
         return withUnpackedExecutionException {
             successfulF.get()
+        }
+    }
+
+    /**
+     * Wrap a Future.get() call into this, to unpack the ExecutionException it raises if the
+     * code executed by the future throws an exception. Thus, an internal TimeoutException will be
+     * returned like a future's TimeoutException.
+     */
+    private static <V> V withUnpackedExecutionException(Closure<V> block) {
+        try {
+            block.call()
+        } catch (ExecutionException e) {
+            throw e.cause
         }
     }
 
