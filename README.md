@@ -25,10 +25,16 @@ where you substitute the correct proxies and ports required for your environment
 
 ## Changelog
 
+* 2.4.0
+
+  - Minor: Improved reporting of stdout and stderr for executed commands
+  - Minor: Renamed `asExecutionResult` to `asSynchronousExecutionResult`
+  - Patch: Use Circle-CI instead of Travis-CI
+
 * 2.3.0
 
-  - Refactored `AsyncExecutionResult` and `ExecutionResult` to improve the stdout and stderr handling. This also affects `ExecutionResult.resultLines` field/accessors.
-  - Improved support for additional output stream in `LocalExecutionHelper`
+  - Minor: Refactored `AsyncExecutionResult` and `ExecutionResult` to improve the stdout and stderr handling. This also affects `ExecutionResult.resultLines` field/accessors.
+  - Minor: Improved support for additional output stream in `LocalExecutionHelper`
   - Changes are required for Roddy 3.6.1 improvements related to better error reporting and handling.
 
 * 2.2.2

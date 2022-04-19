@@ -56,7 +56,7 @@ class LocalExecutionHelper {
         }
     }
 
-    public static String executeSingleCommand(String command) {
+    static String executeSingleCommand(String command) {
         //TODO What an windows systems?
         //Process process = Roddy.getLocalCommandSet().getShellExecuteCommand(command).execute();
         Process process = (["bash", "-c", "${command}"]).execute();
@@ -150,7 +150,7 @@ class LocalExecutionHelper {
         logger.postRareInfo("Executing the command ${bashCommand} locally.")
         ProcessBuilder processBuilder = new ProcessBuilder(bashCommand)
         Process process = processBuilder.start()
-        Future<List<String>> stdoutF
+        CompletableFuture<List<String>> stdoutF
         if (outputStream == null) {
             stdoutF = asyncReadStringStream(process.inputStream, executorService)
         } else {
