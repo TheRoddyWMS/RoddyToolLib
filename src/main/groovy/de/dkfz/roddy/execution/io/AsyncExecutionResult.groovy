@@ -48,7 +48,7 @@ class AsyncExecutionResult extends ExecutionResult {
      *  the referee process is finished.
      */
     ExecutionResult asExecutionResult() {
-        new ExecutionResult(command, successful, exitCode, stdout, stderr, processID)
+        return new ExecutionResult(command, successful, exitCode, stdout, stderr, processID)
     }
 
     /**

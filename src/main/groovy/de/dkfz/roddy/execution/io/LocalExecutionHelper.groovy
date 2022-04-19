@@ -14,7 +14,6 @@ import java.lang.reflect.Field
 import java.nio.charset.Charset
 import java.time.Duration
 import java.util.concurrent.CompletableFuture
-import java.util.concurrent.ExecutionException
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
@@ -105,7 +104,7 @@ class LocalExecutionHelper {
             byte[] bytes = (line + "\n").getBytes(charsetName)
             outputStream.write(bytes, 0, bytes.size())
         }
-        result
+        return result
     }
 
     /** This method is like asyncReadStringStream, but additionally copies the inputStream content
@@ -129,7 +128,7 @@ class LocalExecutionHelper {
             String command,
             OutputStream outputStream = null,
             ExecutorService executorService = executorService) {
-        executeCommandWithExtendedResult(
+        return executeCommandWithExtendedResult(
                 command, true, Duration.ZERO, outputStream, executorService)
     }
 
@@ -179,7 +178,7 @@ class LocalExecutionHelper {
             } else {
                 result = process.waitFor()
             }
-            result
+            return result
         } as Supplier<Integer>, executorService)
 
         AsyncExecutionResult result = new AsyncExecutionResult(
