@@ -25,11 +25,54 @@ where you substitute the correct proxies and ports required for your environment
 
 ## Changelog
 
-* 0.0.8
+* 2.4.0
 
-  - Refactored `AsyncExecutionResult` and `ExecutionResult` to improve the stdout and stderr handling. This also affects `ExecutionResult.resultLines` field/accessors.
-  - Improved support for additional output stream in `LocalExecutionHelper`
-  - Changes are required for Roddy 3.6.1 improvements related to better error reporting and handling.  
+  - Minor: Improved reporting of stdout and stderr for executed commands
+  - Minor: Renamed `asExecutionResult` to `asSynchronousExecutionResult`
+  - Patch: Use Circle-CI instead of Travis-CI
+
+* 2.3.0
+
+  - Minor: Refactored `AsyncExecutionResult` and `ExecutionResult` to improve the stdout and stderr handling. This also affects `ExecutionResult.resultLines` field/accessors.
+  - Minor: Improved support for additional output stream in `LocalExecutionHelper`
+  - Changes are required for Roddy 3.6.1 improvements related to better error reporting and handling.
+
+* 2.2.2
+
+  - Patch: Moved from `StringBuilder` to `StringBuffer` in `LocalExecutionHelper`.
+
+* 2.2.1
+
+  - Minor: Made `ExecutionResult.resultLines` protected (from private)
+
+* 2.2.0
+
+  - Minor: Added `AsyncExecutionResult`
+  - Minor: Cornercase bugfix `RoddyConversionHelperMethods`
+
+* 2.1.1
+
+  - Patch: Update to Gradle 5.1.1
+
+* 2.1.0
+
+  - Minor: Added `DateTimeHelper`
+  - Minor: Added `convertMapToTwoColumnsPrettyTable`
+
+* 2.0.0
+
+  - Minor: Bash expression handling (escaping)
+  - Minor: `BufferValue` is value type (implements `hashCode` and `equals`)
+  - Patch: Code groovyfication
+
+* 1.0.0
+
+  - Major: Moved package from `eilslabs` to `theroddywms`
+  - Minor: Added version management code
+     * `CompatibilityChecker`
+     * Improved version patterns
+     * `VersionInterval`
+  - Patch: Update Gradle version from 4.2.1 to 4.8
 
 * 0.0.7
 
