@@ -1,6 +1,6 @@
 # ToolLib
 
-[![Build Status - Travis](https://travis-ci.org/TheRoddyWMS/RoddyToolLib.svg?branch=master)](https://travis-ci.org/TheRoddyWMS/RoddyToolLib)
+[![CircleCI](https://circleci.com/gh/TheRoddyWMS/RoddyToolLib/tree/master.svg?style=svg)](https://circleci.com/gh/TheRoddyWMS/RoddyToolLib/tree/master)
 
 Tool library used in [BatchEuphoria](https://github.com/TheRoddyWMS/BatchEuphoria) and [Roddy](https://github.com/TheRoddyWMS/Roddy).
 
