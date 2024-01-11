@@ -15,7 +15,7 @@ package de.dkfz.roddy.tools
  * However floating point values can be parsed and will be rounded to their Integers.
  * Created by heinold on 10.11.15.
  */
-public class BufferValue {
+class BufferValue {
 
 /**
      * The stored value aligned to KiloByte

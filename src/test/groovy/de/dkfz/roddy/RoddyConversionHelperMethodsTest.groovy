@@ -27,7 +27,7 @@ class RoddyConversionHelperMethodsTest extends GroovyTestCase {
 
     void testToDouble() {
         assert 1.0d == RoddyConversionHelperMethods.toDouble("1.0")
-        assert 1.0d == RoddyConversionHelperMethods.toDouble("a0", 1.0)
+        assert 1.0d == RoddyConversionHelperMethods.toDouble("a0", 1.0d)
     }
 
     void testToBoolean() {
