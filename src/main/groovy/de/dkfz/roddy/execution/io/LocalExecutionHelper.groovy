@@ -147,7 +147,7 @@ class LocalExecutionHelper {
             OutputStream outputStream = null,
             ExecutorService executorService = executorService) {
         List<String> bashCommand = ["bash", "-c", command]
-        logger.postRareInfo("Executing the command ${bashCommand} locally.")
+        logger.postRareInfo("Executing command locally: ${bashCommand}")
         ProcessBuilder processBuilder = new ProcessBuilder(bashCommand)
         Process process = processBuilder.start()
         CompletableFuture<List<String>> stdoutF

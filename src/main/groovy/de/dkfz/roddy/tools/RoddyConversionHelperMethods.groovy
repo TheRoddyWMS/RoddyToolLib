@@ -19,7 +19,7 @@ import groovy.xml.XmlUtil
  * Date: 27.11.12
  * Time: 09:09
  */
-@groovy.transform.CompileStatic
+@CompileStatic
 class RoddyConversionHelperMethods {
 
     static int toInt(String value, int number = 0) {

@@ -25,6 +25,13 @@ where you substitute the correct proxies and ports required for your environment
 
 ## Changelog
 
+* 2.4.1
+
+   - Patch: Library update
+   - Patch: Changed one logging message
+   - Patch: Fixed a unit test
+   - Patch: Code layout refactorings and groovification
+
 * 2.4.0
 
   - Minor: Improved reporting of stdout and stderr for executed commands

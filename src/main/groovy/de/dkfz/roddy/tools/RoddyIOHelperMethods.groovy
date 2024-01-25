@@ -10,6 +10,7 @@ import de.dkfz.roddy.execution.io.LocalExecutionHelper
 import de.dkfz.roddy.tools.compression.Compressor
 import de.dkfz.roddy.tools.compression.CompressorUsingZipAndBash
 import groovy.io.FileType
+import groovy.transform.CompileStatic
 import org.apache.commons.codec.digest.DigestUtils
 
 import java.nio.file.*
@@ -25,7 +26,7 @@ import java.nio.file.attribute.PosixFilePermissions
  * Date: 27.11.12
  * Time: 09:09
  */
-@groovy.transform.CompileStatic
+@CompileStatic
 class RoddyIOHelperMethods {
 
     private static LoggerWrapper logger = LoggerWrapper.getLogger(RoddyIOHelperMethods.class.getSimpleName())
