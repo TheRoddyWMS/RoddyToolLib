@@ -16,11 +16,13 @@ class DateTimeHelper {
     DateTimeHelper(String dateParserPattern = null, Locale locale = Locale.default, ZoneId timeZoneId = ZoneId.systemDefault()) {
         if (!dateParserPattern)
             DATE_PATTERN = DateTimeFormatter.ISO_DATE_TIME
+                    .withLocale(locale)
+                    .withZone(timeZoneId ?: null)
         else
-            this.DATE_PATTERN = DateTimeFormatter
+            DATE_PATTERN = DateTimeFormatter
                     .ofPattern(dateParserPattern)
                     .withLocale(locale)
-                    .withZone(timeZoneId ?: ZoneId.systemDefault())
+                    .withZone(timeZoneId ?: null)
     }
 
     DateTimeFormatter getDatePattern() {

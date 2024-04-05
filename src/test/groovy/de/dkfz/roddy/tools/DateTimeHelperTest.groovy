@@ -21,12 +21,12 @@ class DateTimeHelperTest extends Specification {
         (new DateTimeHelper(parserPattern, locale, zoneId)).datePattern.zone == expectedZone
 
         where: // I do not know how to test this properly. We can test for the zoneId, but not for the pattern
-        parserPattern        | locale         | zoneId                 | expectedZone
-        null                 | Locale.ENGLISH | null                   | null
-        null                 | Locale.ENGLISH | ZoneId.of("Asia/Aden") | null
-        "MMM ppd HH:mm yyyy" | Locale.ENGLISH | null                   | ZoneId.of("Europe/Berlin")
+        parserPattern        | locale         | zoneId                     | expectedZone
+        null                 | Locale.ENGLISH | ZoneId.of("Europe/Berlin") | ZoneId.of("Europe/Berlin")
+        null                 | Locale.ENGLISH | ZoneId.of("Asia/Aden")     | ZoneId.of("Asia/Aden")
         "MMM ppd HH:mm yyyy" | Locale.ENGLISH | ZoneId.of("Europe/Berlin") | ZoneId.of("Europe/Berlin")
-        "MMM ppd HH:mm yyyy" | Locale.ENGLISH | ZoneId.of("Asia/Aden") | ZoneId.of("Asia/Aden")
+        "MMM ppd HH:mm yyyy" | Locale.ENGLISH | ZoneId.of("Europe/Berlin") | ZoneId.of("Europe/Berlin")
+        "MMM ppd HH:mm yyyy" | Locale.ENGLISH | ZoneId.of("Asia/Aden")     | ZoneId.of("Asia/Aden")
     }
 
     def "ParseTime"(parserPattern, locale, timeString, expectedResult) {
