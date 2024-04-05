@@ -31,7 +31,8 @@ class DateTimeHelperTest extends Specification {
 
     def "ParseTime"(parserPattern, locale, timeString, expectedResult) {
         expect:
-        new DateTimeHelper(parserPattern, locale).parseToZonedDateTime(timeString) == expectedResult
+        new DateTimeHelper(parserPattern, locale, ZoneId.of("Europe/Berlin")).
+                parseToZonedDateTime(timeString) == expectedResult
 
         where:
         parserPattern        | locale         | timeString                                 | expectedResult
