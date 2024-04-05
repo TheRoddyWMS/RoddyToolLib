@@ -15,6 +15,14 @@ apply plugin: 'groovy'
 
 group = "com.github.theroddywms"
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+// Fix Java Version
+ext.langLevel = 1.8
+
 
 /*
  * Gets the version name from the current Git tag. If the current commit is not tagged,
@@ -38,9 +46,6 @@ dependencies {
     implementation group: 'commons-codec', name: 'commons-codec', version: '1.13'
     implementation group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
 }
-
-// Fix Java Version
-ext.langLevel = 1.8
 
 model {
     tasks.generatePomFileForMavenJavaPublication {
