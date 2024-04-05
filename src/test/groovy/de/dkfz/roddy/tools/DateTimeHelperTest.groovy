@@ -25,7 +25,7 @@ class DateTimeHelperTest extends Specification {
         null                 | Locale.ENGLISH | null                   | null
         null                 | Locale.ENGLISH | ZoneId.of("Asia/Aden") | null
         "MMM ppd HH:mm yyyy" | Locale.ENGLISH | null                   | ZoneId.of("Europe/Berlin")
-        "MMM ppd HH:mm yyyy" | Locale.ENGLISH | ZoneId.systemDefault() | ZoneId.of("Europe/Berlin")
+        "MMM ppd HH:mm yyyy" | Locale.ENGLISH | ZoneId.of("Europe/Berlin") | ZoneId.of("Europe/Berlin")
         "MMM ppd HH:mm yyyy" | Locale.ENGLISH | ZoneId.of("Asia/Aden") | ZoneId.of("Asia/Aden")
     }
 
