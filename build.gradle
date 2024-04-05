@@ -20,9 +20,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-// Fix Java Version
-ext.langLevel = 1.8
-
 
 /*
  * Gets the version name from the current Git tag. If the current commit is not tagged,
