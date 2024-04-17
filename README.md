@@ -25,6 +25,10 @@ where you substitute the correct proxies and ports required for your environment
 
 ## Changelog
 
+* Next
+
+  - patch: Added `listConfigurations`, `allBoms`, and a `...Bom` task for every Gradle configuration set. The `allBoms` and `...Bom` tasks generate JSON CycloneDX SBOMs in `gradleBuild/reports/cyclonedx`.
+
 * 2.4.0
 
   - Minor: Improved reporting of stdout and stderr for executed commands
