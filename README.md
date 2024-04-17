@@ -22,3 +22,50 @@ systemProp.https.proxyPort=HTTPS_proxy_port
 ```
 
 where you substitute the correct proxies and ports required for your environment.
+
+## Changelog
+
+* Next
+
+  - patch: Added `listConfigurations`, `allBoms`, and a `...Bom` task for every Gradle configuration set. The `allBoms` and `...Bom` tasks generate JSON CycloneDX SBOMs in `gradleBuild/reports/cyclonedx`.
+
+* 2.2.2
+
+  - Patch: Moved from `StringBuilder` to `StringBuffer` in `LocalExecutionHelper`.
+
+* 2.2.1
+
+  - Minor: Made `ExecutionResult.resultLines` protected (from private)
+
+* 2.2.0
+
+  - Minor: Added `AsyncExecutionResult`
+  - Minor: Cornercase bugfix `RoddyConversionHelperMethods`
+
+* 2.1.1
+
+  - Patch: Update to Gradle 5.1.1
+
+* 2.1.0
+
+  - Minor: Added `DateTimeHelper`
+  - Minor: Added `convertMapToTwoColumnsPrettyTable`
+
+* 2.0.0
+
+  - Minor: Bash expression handling (escaping)
+  - Minor: `BufferValue` is value type (implements `hashCode` and `equals`)
+  - Patch: Code groovyfication
+
+* 1.0.0
+
+  - Major: Moved package from `eilslabs` to `theroddywms`
+  - Minor: Added version management code
+     * `CompatibilityChecker`
+     * Improved version patterns
+     * `VersionInterval`
+  - Patch: Update Gradle version from 4.2.1 to 4.8
+
+* 0.0.7
+
+  - Added `AsyncExecutionResult` to handle asynchronous execution of command executions.
