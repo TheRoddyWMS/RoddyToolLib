@@ -4,8 +4,11 @@
  * Distributed under the MIT License (license terms are at https://www.github.com/theroddywms/Roddy/LICENSE.txt).
  */
 
+import org.cyclonedx.gradle.CycloneDxTask
+
 plugins {
     id 'org.ajoberstar.grgit' version '1.7.2'
+    id 'org.cyclonedx.bom' version '1.8.2'
 }
 
 apply plugin: 'groovy'
@@ -85,4 +88,36 @@ test {
         exceptionFormat "full"
         setShowStandardStreams true
     }
+}
+
+task listConfigurations {
+    group = "reporting"
+    description = "List all configurations, as needed for discerning development and production configurations by the SBOM tasks."
+    doLast {
+        configurations.each { Configuration c ->
+            println c.name
+        }
+    }
+}
+
+task allBoms() {
+    // a grouping task to execute the CycloneDxTask for each configuration
+    group = "reporting"
+}
+
+rootProject.configurations.each { configuration ->
+    String name = configuration.name
+    task "${name}Bom"(type: CycloneDxTask) {
+        group = "reporting"
+        description = "Creates a CycloneDX SBOM for the configuration ${name}."
+
+        destination = file("${project.buildDir}/reports/cyclonedx")
+        outputName = name
+        includeConfigs = [name]
+        schemaVersion = "1.5"
+        outputFormat="json"
+        includeLicenseText = false
+        projectType = "application"
+    }
+    allBoms.dependsOn tasks.getByName("${name}Bom")
 }
