@@ -45,6 +45,8 @@ public class StringConstants {
     public static final String DOUBLESTOP = "";
     public static final String SBRACKET_LEFT = "[";
     public static final String SBRACKET_RIGHT = "]";
+    public static final String PAREN_LEFT = "(";
+    public static final String PAREN_RIGHT = ")";
     public static final String BRACE_LEFT = "{";
     public static final String BRACE_RIGHT = "}";
     public static final String EQUALS = "=";
