@@ -25,8 +25,9 @@ where you substitute the correct proxies and ports required for your environment
 
 ## Changelog
 
-* Next
+* 2.5.0
 
+  - minor: Added `AnyEscapableString` hierarchy to model shell-escapable strings and escaping.
   - patch: Upgrade to Gradle 8.3
   - patch: Added `listConfigurations`, `allBoms`, and a `...Bom` task for every Gradle configuration set. The `allBoms` and `...Bom` tasks generate JSON CycloneDX SBOMs in `gradleBuild/reports/cyclonedx`.
   - patch: Added cyclonedx SBOM and test-report tarballs to GitHub releases
