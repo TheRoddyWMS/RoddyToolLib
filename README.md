@@ -1,4 +1,4 @@
-# ToolLib
+# RoddyToolLib
 
 [![CircleCI](https://circleci.com/gh/TheRoddyWMS/RoddyToolLib/tree/master.svg?style=svg)](https://circleci.com/gh/TheRoddyWMS/RoddyToolLib/tree/master)
 
@@ -27,7 +27,9 @@ where you substitute the correct proxies and ports required for your environment
 
 * Next
 
+  - patch: Upgrade to Gradle 8.3
   - patch: Added `listConfigurations`, `allBoms`, and a `...Bom` task for every Gradle configuration set. The `allBoms` and `...Bom` tasks generate JSON CycloneDX SBOMs in `gradleBuild/reports/cyclonedx`.
+  - patch: Added cyclonedx SBOM and test-report tarballs to GitHub releases
 
 * 2.4.1
 
