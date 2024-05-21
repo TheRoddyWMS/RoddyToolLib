@@ -187,6 +187,25 @@ public class RoddyIOHelperMethodsTest {
     }
 
     @Test
+    public void testSymbolicToIntegerAccessRights() throws Exception {
+        Map<String, Integer> valuesAndExpectedMap = [
+                "u=rwx,g=rwx,o=rwx": 0777, //rwx,rwx,rwx
+                "u=rwx,g=rwx,o-rwx": 0770, //rwx,rwx,---
+                "u+rwx,g+rwx,o-rwx": 0770, //rwx,rwx,---
+                "u+rw,g-rw,o-rwx"  : 0710, //rwx,---,---
+                "u+rw,g+rw,o-rwx"  : 0770, //rwx,rw-,---
+                "u+rw,g+rw"        : 0775, //rwx,rw-,r--
+                "u-w,g+rw,u-r"     : 0175, //--x,rwx,r-x  Careful here, u ist set two times!
+        ]
+
+        valuesAndExpectedMap.each {
+            String rights, Integer res ->
+                assert res == RoddyIOHelperMethods.symbolicToIntegerAccessRights(rights, 0022)
+        }
+
+    }
+
+    @Test
     public void testConvertUMaskToAccessRights() throws Exception {
         Map<String, String> valuesAndResults = [
                 "0000": "0777",
