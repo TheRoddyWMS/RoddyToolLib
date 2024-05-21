@@ -10,7 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Provides basic fields and methods for classes which represent a jobState of i.e. data sets which for a given point in time.
+ * Provides basic fields and methods for classes which represent a jobState of i.e. data sets which
+ * for a given point in time.
  */
 public class InfoObject {
     private static final String TIMESTAMP_FORMAT = "yyMMdd_HHmm";
