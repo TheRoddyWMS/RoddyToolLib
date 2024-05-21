@@ -39,6 +39,7 @@ class RoddyIOHelperMethods {
         try {
             return f.readLines().toArray(new String[0])
         } catch (Exception ex) {
+            logger.severe(ex.toString())
             return new String[0]
         }
     }
@@ -47,6 +48,7 @@ class RoddyIOHelperMethods {
         try {
             return f.text
         } catch (Exception ex) {
+            logger.severe(ex.toString())
             return StringConstants.EMPTY
         }
     }
@@ -147,6 +149,8 @@ class RoddyIOHelperMethods {
                 stackTrace = exception.getStackTrace()
             if (stackTrace != null)
                 return joinArray(stackTrace, System.getProperty("line.separator"))
+            else
+                return ""
         } catch (Exception ex) {
             logger.info("No stacktrace could be printed for an exception.")
             return ""
@@ -282,9 +286,6 @@ class RoddyIOHelperMethods {
     }
 
     /** Convert symbolic to numeric access rights.
-     *
-     * This method is currently not portable and uses a separate umask process ot properly calculate umasks
-     * However, this will on work on systems supporting umask!
      *
      * @param rightsStr string representation of access rights
      * @return numeric access rights
