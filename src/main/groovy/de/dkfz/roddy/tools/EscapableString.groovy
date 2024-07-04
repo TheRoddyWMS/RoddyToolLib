@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024 German Cancer Research Center (DKFZ).
+ *
+ * Distributed under the MIT License (license terms are at https://www.github.com/eilslabs/Roddy/LICENSE.txt).
+ */
 package de.dkfz.roddy.tools
 
 import com.google.common.base.Preconditions
@@ -8,14 +13,12 @@ import org.apache.commons.text.StringEscapeUtils
 import org.jetbrains.annotations.NotNull
 
 
-@CompileStatic
-
-
 /** EscapableString implements a Composite pattern. **/
-abstract class AnyEscapableString {
+@CompileStatic
+abstract class EscapableString {
 
     /** Compose escapable strings into a tree-like structure. **/
-    ConcatenatedString plus(@NotNull AnyEscapableString other) {
+    ConcatenatedString plus(@NotNull EscapableString other) {
         Preconditions.checkArgument(other != null)
         new ConcatenatedString([this, other]).simplify()
     }
@@ -27,7 +30,7 @@ abstract class AnyEscapableString {
     }
 
     /** Call `someEscapable.escaped` to add a level of escaping. **/
-    abstract AnyEscapableString getEscaped()
+    abstract EscapableString getEscaped()
 
     /** Get the raw size (i.e. without any escapes that may get added. */
     abstract int size()
@@ -39,15 +42,78 @@ abstract class AnyEscapableString {
      *  UnescapedString and EscapedString will not be changed. Therefore, the default is
      *  *not* to do any simplification.
      */
-    AnyEscapableString simplify() {
+    EscapableString simplify() {
         this
+    }
+
+    /** Nested class with only static methods get a light-weight DSL-like syntax. **/
+    class Shortcuts {
+
+        // Composition functions.
+
+        // e = escaped string
+        static EscapableString e(@NotNull EscapableString value) {
+            Preconditions.checkArgument(value != null)
+            value.escaped
+        }
+
+
+        static EscapedString e(@NotNull String value) {
+            u(value).escaped
+        }
+
+        // u = unescaped string
+        static EscapableString u(@NotNull EscapableString value) {
+            Preconditions.checkArgument(value != null)
+            // No-op
+            value
+        }
+
+        static UnescapedString u(@NotNull String value) {
+            new UnescapedString(value)
+        }
+
+        // c = concatenate
+        static ConcatenatedString c(@NotNull List<EscapableString> values = []) {
+            Preconditions.checkArgument(values != null)
+            new ConcatenatedString(values).simplify()
+        }
+
+        static ConcatenatedString c(@NotNull EscapableString... values) {
+            c(values as List<EscapableString>)
+        }
+
+        /** This is just a workaround. Ideally, there would be a `.join()` method attached to
+         *  List<EscapableString>. As Groovy does not have type classes, the only option
+         *  seems to be some compile-time metaprogramming, and honestly, it's currently not worth
+         *  the effort.
+         */
+        static ConcatenatedString join(List<EscapableString> list, EscapableString separator) {
+            list.inject(c(), { acc, v ->
+                if (acc == c()) {
+                    c(v)
+                } else if (v == c()) {
+                    acc
+                } else {
+                    acc + separator + v
+                }
+            })
+        }
+        static ConcatenatedString join(List<EscapableString> list, String separator) {
+            join(list, u(separator))
+        }
+
+        static String forBash(EscapableString string) {
+            string.interpreted(BashInterpreter.instance)
+        }
+
     }
 
 }
 
 @CompileStatic
 @EqualsAndHashCode(includeFields = true)
-class UnescapedString extends AnyEscapableString {
+class UnescapedString extends EscapableString {
 
     private String value
 
@@ -84,18 +150,18 @@ class UnescapedString extends AnyEscapableString {
 
 @CompileStatic
 @EqualsAndHashCode(includeFields = true)
-class EscapedString extends AnyEscapableString {
+class EscapedString extends EscapableString {
 
-    private AnyEscapableString value
+    private EscapableString value
 
     // The EscapableStringInterpreter needs access to the value. For now package private access
     // is sufficient.
     @PackageScope
-    AnyEscapableString get_value() {
+    EscapableString get_value() {
         value
     }
 
-    EscapedString(@NotNull AnyEscapableString value) {
+    EscapedString(@NotNull EscapableString value) {
         Preconditions.checkArgument(value != null)
         this.value = value
     }
@@ -125,16 +191,16 @@ class EscapedString extends AnyEscapableString {
 
 @CompileStatic
 @EqualsAndHashCode(includeFields = true)
-class ConcatenatedString extends AnyEscapableString {
+class ConcatenatedString extends EscapableString {
 
-    private List<AnyEscapableString> values
+    private List<EscapableString> values
 
     @PackageScope
-    List<AnyEscapableString> get_values() {
+    List<EscapableString> get_values() {
         values
     }
 
-    ConcatenatedString(@NotNull List<AnyEscapableString> values) {
+    ConcatenatedString(@NotNull List<EscapableString> values) {
         Preconditions.checkArgument(values != null)
         this.values = values
     }
@@ -163,7 +229,7 @@ class ConcatenatedString extends AnyEscapableString {
 
     @Override
     ConcatenatedString simplify() {
-        List<AnyEscapableString> newValues = values.
+        List<EscapableString> newValues = values.
                 collect { it.simplify() }.
                 collect {
                     if (it instanceof ConcatenatedString) {
@@ -175,79 +241,21 @@ class ConcatenatedString extends AnyEscapableString {
                     } else {
                         [it]
                     }
-                }.flatten().findAll { it != null } as List<AnyEscapableString>
+                }.flatten().findAll { it != null } as List<EscapableString>
         new ConcatenatedString(newValues)
     }
 
 }
 
-@CompileStatic
-class EscapableString {
-
-    // Composition functions.
-
-    static AnyEscapableString e(@NotNull AnyEscapableString value) {
-        Preconditions.checkArgument(value != null)
-        value.escaped
-    }
-
-
-    static EscapedString e(@NotNull String value) {
-        u(value).escaped
-    }
-
-    static AnyEscapableString u(@NotNull AnyEscapableString value) {
-        Preconditions.checkArgument(value != null)
-        // No-op
-        value
-    }
-
-    static UnescapedString u(@NotNull String value) {
-        new UnescapedString(value)
-    }
-
-    static ConcatenatedString c(@NotNull List<AnyEscapableString> values = []) {
-        Preconditions.checkArgument(values != null)
-        new ConcatenatedString(values).simplify()
-    }
-
-    static ConcatenatedString c(@NotNull AnyEscapableString... values) {
-        c(values as List<AnyEscapableString>)
-    }
-
-    /** This is just a workaround. Ideally, there would be a `.join()` method attached to
-     *  List<AnyEscapableString>. As Groovy does not have type classes, the only option
-     *  seems to be some compile-time metaprogramming, and honestly, it's currently not worth
-     *  the effort.
-     */
-    static ConcatenatedString join(List<AnyEscapableString> list, AnyEscapableString separator) {
-        list.inject(c(), { acc, v ->
-            if (acc == c()) {
-                c(v)
-            } else if (v == c()) {
-                acc
-            } else {
-                acc + separator + v
-            }
-        })
-    }
-    static ConcatenatedString join(List<AnyEscapableString> list, String separator) {
-        join(list, u(separator))
-    }
-
-    static String forBash(AnyEscapableString string) {
-        string.interpreted(BashInterpreter.instance)
-    }
-
-}
 
 @CompileStatic
 abstract class EscapableStringInterpreter {
-    public abstract String interpret(AnyEscapableString string)
+    public abstract String interpret(EscapableString string)
     protected abstract String from(UnescapedString string)
     protected abstract String from(EscapedString string)
     protected abstract String from(ConcatenatedString string)
 }
+
 
 @CompileStatic
 class BashInterpreter extends EscapableStringInterpreter {
@@ -258,7 +266,7 @@ class BashInterpreter extends EscapableStringInterpreter {
     final static BashInterpreter instance = new BashInterpreter()
 
     @Override
-    String interpret(AnyEscapableString string) {
+    String interpret(EscapableString string) {
         // This makes it possible to use the single, dynamic dispatch usable.
         string.interpreted(this)
     }

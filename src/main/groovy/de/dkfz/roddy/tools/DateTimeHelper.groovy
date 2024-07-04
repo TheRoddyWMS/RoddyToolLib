@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024 German Cancer Research Center (DKFZ).
+ *
+ * Distributed under the MIT License (license terms are at https://www.github.com/eilslabs/Roddy/LICENSE.txt).
+ */
 package de.dkfz.roddy.tools
 
 import groovy.transform.CompileStatic

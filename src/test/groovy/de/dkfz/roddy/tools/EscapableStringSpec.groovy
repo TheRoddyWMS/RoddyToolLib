@@ -3,7 +3,7 @@ package de.dkfz.roddy.tools
 
 import spock.lang.Specification
 
-import static de.dkfz.roddy.tools.EscapableString.*
+import static de.dkfz.roddy.tools.EscapableString.Shortcuts.*
 
 
 class EscapableStringSpec extends Specification {
@@ -104,7 +104,7 @@ class EscapableStringSpec extends Specification {
         conc6 == c(u("hallo"))
     }
 
-    def "Join list of AnyEscapableStrings"() {
+    def "Join list of EscapableStrings"() {
         when:
         def list = [e("test1"), u("test2"), e("\$var")]
 
