@@ -177,7 +177,7 @@ public class RoddyIOHelperMethodsTest {
                 "u+rw,g-rw,o-rwx"  : "0710", //rwx,---,---
                 "u+rw,g+rw,o-rwx"  : "0770", //rwx,rw-,---
                 "u+rw,g+rw"        : "0775", //rwx,rw-,r--
-                "u-w,g+rw,u-r"     : "0175", //--x,rwx,r-x  Careful here, u ist set two times!
+                "u-w,g+rw,u-r"     : "0175", //--x,rwx,r-x  Careful here, u is set two times!
         ]
 
         valuesAndExpectedMap.each {
@@ -195,7 +195,7 @@ public class RoddyIOHelperMethodsTest {
                 "u+rw,g-rw,o-rwx"  : 0710, //rwx,---,---
                 "u+rw,g+rw,o-rwx"  : 0770, //rwx,rw-,---
                 "u+rw,g+rw"        : 0775, //rwx,rw-,r--
-                "u-w,g+rw,u-r"     : 0175, //--x,rwx,r-x  Careful here, u ist set two times!
+                "u-w,g+rw,u-r"     : 0175, //--x,rwx,r-x  Careful here, u is set two times!
         ]
 
         valuesAndExpectedMap.each {

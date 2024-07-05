@@ -42,7 +42,7 @@ abstract class EscapableString {
      *  UnescapedString and EscapedString will not be changed. Therefore, the default is
      *  *not* to do any simplification.
      */
-    EscapableString simplify() {
+    protected EscapableString simplify() {
         this
     }
 
@@ -228,7 +228,7 @@ class ConcatenatedString extends EscapableString {
     }
 
     @Override
-    ConcatenatedString simplify() {
+    protected ConcatenatedString simplify() {
         List<EscapableString> newValues = values.
                 collect { it.simplify() }.
                 collect {

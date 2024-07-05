@@ -123,4 +123,24 @@ class EscapableStringSpec extends Specification {
                 e("\$var"))
     }
 
+    def "Size works with all subtypes, join, concatenation, and simplification"() {
+        when:
+        def empty = c()
+        def escaped = e("escaped")
+        def unescaped = u("unescaped")
+
+        then:
+        empty.size() == 0
+        escaped.size() == 7
+        unescaped.size() == 9
+        // Like String +, without separator.
+        c([empty, escaped, unescaped]).size() == 16
+        c([empty, empty, empty, escaped]).size() == 7
+        c([empty, empty, empty, escaped]).simplify().size() == 7
+        // Like String.join, with separator.
+        join([empty, escaped, unescaped], " ").size() == 17
+        join([empty, escaped, unescaped], " ").simplify().size() == 17
+
+    }
+
 }
