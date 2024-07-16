@@ -32,8 +32,11 @@ abstract class EscapableString {
     /** Call `someEscapable.escaped` to add a level of escaping. **/
     abstract EscapableString getEscaped()
 
-    /** Get the raw size (i.e. without any escapes that may get added. */
+    /** Get the string raw size (i.e. without any escapes that may get added. */
     abstract int size()
+
+    /** Get the content of the EscapableString as List<EscapableString>. **/
+    abstract List<EscapableString> getValues()
 
     /** Interpret the string using an interpreter. **/
     abstract String interpreted(EscapableStringInterpreter interpreter)
@@ -89,7 +92,7 @@ abstract class EscapableString {
          *  the effort.
          */
         static ConcatenatedString join(List<EscapableString> list, EscapableString separator) {
-            list.inject(c(), { acc, v ->
+            (list.inject(c(), { acc, v ->
                 if (acc == c()) {
                     c(v)
                 } else if (v == c()) {
@@ -97,7 +100,7 @@ abstract class EscapableString {
                 } else {
                     acc + separator + v
                 }
-            })
+            }) as ConcatenatedString).simplify()
         }
         static ConcatenatedString join(List<EscapableString> list, String separator) {
             join(list, u(separator))
@@ -124,6 +127,10 @@ class UnescapedString extends EscapableString {
 
     String getValue() {
         return value
+    }
+
+    List<UnescapedString> getValues() {
+        [this]
     }
 
     @Override
@@ -154,11 +161,15 @@ class EscapedString extends EscapableString {
 
     private EscapableString value
 
-    // The EscapableStringInterpreter needs access to the value. For now package private access
+    // The EscapableStringInterpreter needs access to the value. For now, package private access
     // is sufficient.
     @PackageScope
     EscapableString get_value() {
         value
+    }
+
+    List<EscapedString> getValues() {
+        [this]
     }
 
     EscapedString(@NotNull EscapableString value) {
@@ -200,6 +211,11 @@ class ConcatenatedString extends EscapableString {
         values
     }
 
+    List<EscapableString> getValues() {
+        // I don't wont to return a reference to a private member.
+        return new LinkedList<EscapableString>(values)
+    }
+
     ConcatenatedString(@NotNull List<EscapableString> values) {
         Preconditions.checkArgument(values != null)
         this.values = values
@@ -231,17 +247,10 @@ class ConcatenatedString extends EscapableString {
     protected ConcatenatedString simplify() {
         List<EscapableString> newValues = values.
                 collect { it.simplify() }.
-                collect {
-                    if (it instanceof ConcatenatedString) {
-                        if (it.size() == 0) {
-                            null
-                        } else {
-                            it.values
-                        }
-                    } else {
-                        [it]
-                    }
-                }.flatten().findAll { it != null } as List<EscapableString>
+                findAll { it.size() > 0 }.
+                collect { it.values }.
+                flatten().
+                findAll { it != null } as List<EscapableString>
         new ConcatenatedString(newValues)
     }
 
