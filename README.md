@@ -1,8 +1,10 @@
-# ToolLib
+# RoddyToolLib
 
 [![CircleCI](https://circleci.com/gh/TheRoddyWMS/RoddyToolLib/tree/master.svg?style=svg)](https://circleci.com/gh/TheRoddyWMS/RoddyToolLib/tree/master)
 
 Tool library used in [BatchEuphoria](https://github.com/TheRoddyWMS/BatchEuphoria) and [Roddy](https://github.com/TheRoddyWMS/Roddy).
+
+> NOTE: This software is for research-use only (RUO).
 
 ## Build
 
@@ -23,7 +25,37 @@ systemProp.https.proxyPort=HTTPS_proxy_port
 
 where you substitute the correct proxies and ports required for your environment.
 
-## Changelog
+## Contributors Information
+
+The full developer information is available in the [Roddy documentation](https://roddy-documentation.readthedocs.io/en/latest/roddyDevelopment/developersGuide.html).
+
+Some basic information:
+
+* We use [Semantic Versioning 2.0](https://semver.org/).
+   * Release versions are named according to the pattern `\d\.\d\.\d(-(RC)?\d+`.
+   * The first three levels are the "major", "minor", and "patch" number. The patch number is occasionally also called "build" number.
+   * Additional to the major, minor, and patch numbers, a "revision" number `-\d+` can be attached.
+   * It is possible to tag release candidate using suffixes `-RC\d+`
+* We use [Github-Flow](https://githubflow.github.io/) as branching models.
+* Additional to the "master" branch for long-term support of older versions it is possible to have dedicated release branches.
+   * Release branches should be named according to the pattern `ReleaseBranch_\d+\.\d+(\.\d+)`.
+* Issues can be marked with the following labels
+  * `in progress`
+  * `bug::candidate`
+  * `bug::minor`
+  * `bug::normal`
+  * `bug::critical`
+
+## Change Log
+
+Change log entries should have the form
+
+```markdown
+* $version
+   * major: A change that breaks backwards compatibility
+   * minor: A change that adds features, without breaking backwards compatibility
+   * patch: A change that does neither add a feature, nor breaks backwards compatibility
+```
 
 * 2.4.1
 
