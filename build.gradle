@@ -17,11 +17,13 @@ apply plugin: 'groovy'
 group = "com.github.theroddywms"
 
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(8)
-    }
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+// Newer Gradle
+//    toolchain {
+//        languageVersion = JavaLanguageVersion.of(8)
+//    }
 }
-
 
 /*
  * Gets the version name from the current Git tag. If the current commit is not tagged,
@@ -36,6 +38,17 @@ rootProject.version = getVersionName()
 
 repositories {
     mavenCentral()
+}
+
+task listRepositories {
+    group = "reporting"
+    description = "List all repositories used in the project"
+    doLast {
+        println "Repositories:"
+        repositories.each { repo ->
+            println " - ${repo.name}: ${repo.url}"
+        }
+    }
 }
 
 dependencies {
@@ -126,7 +139,7 @@ rootProject.configurations.each { Configuration configuration ->
         group = "reporting"
         description = "Creates a CycloneDX SBOM for the configuration ${name}."
 
-        destination = file("${project.buildDir}/reports/cyclonedx")
+        destination = file("${rootProject.layout.buildDirectory}/reports/cyclonedx")
         outputName = name
         includeConfigs = [name]
         schemaVersion = "1.5"
