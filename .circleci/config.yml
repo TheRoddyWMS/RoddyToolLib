@@ -53,7 +53,10 @@ jobs: # a collection of steps
     resource_class: small
     steps:
       - attach_workspace:
-          at: build/
+          at: build
+      - add_ssh_keys:
+          fingerprints:
+            - "1f:14:50:c1:4b:f0:ad:b0:f7:8f:05:b1:62:f4:83:da"
       - run:
           name: "Publish Release on GitHub"
           command: |
