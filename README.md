@@ -57,6 +57,13 @@ Change log entries should have the form
    * patch: A change that does neither add a feature, nor breaks backwards compatibility
 ```
 
+* 2.5.0
+
+  - minor: Added `EscapableString` hierarchy to model shell-escapable strings and escaping.
+  - patch: Upgrade to Gradle 8.3
+  - patch: Added `listConfigurations`, `allBoms`, and a `...Bom` task for every Gradle configuration set. The `allBoms` and `...Bom` tasks generate JSON CycloneDX SBOMs in `gradleBuild/reports/cyclonedx`.
+  - patch: Added cyclonedx SBOM and test-report tarballs to GitHub releases
+
 * 2.4.1
 
    - Patch: Library update

@@ -13,12 +13,7 @@ import groovy.transform.CompileStatic
 import java.lang.reflect.Field
 import java.nio.charset.Charset
 import java.time.Duration
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
-import java.util.concurrent.Future
-import java.util.concurrent.TimeUnit
-import java.util.concurrent.TimeoutException
+import java.util.concurrent.*
 import java.util.function.Supplier
 import java.util.stream.Collectors
 
@@ -57,14 +52,14 @@ class LocalExecutionHelper {
     }
 
     static String executeSingleCommand(String command) {
-        //TODO What an windows systems?
         //Process process = Roddy.getLocalCommandSet().getShellExecuteCommand(command).execute();
         Process process = (["bash", "-c", "${command}"]).execute();
 
         final String separator = System.getProperty("line.separator");
         process.waitFor();
         if (process.exitValue()) {
-            throw new RuntimeException("Process could not be run" + separator + "\tCommand: bash -c " + command + separator + "\treturn code is: " + process.exitValue())
+            throw new RuntimeException("Process could not be run" + separator + "\tCommand: bash -c " +
+                                       command + separator + "\treturn code is: " + process.exitValue())
         }
 
         def text = process.text

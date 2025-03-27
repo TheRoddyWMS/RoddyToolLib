@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024 German Cancer Research Center (DKFZ).
+ *
+ * Distributed under the MIT License (license terms are at https://www.github.com/eilslabs/Roddy/LICENSE.txt).
+ */
 package de.dkfz.roddy.tools
 
 import groovy.transform.CompileStatic
@@ -16,11 +21,13 @@ class DateTimeHelper {
     DateTimeHelper(String dateParserPattern = null, Locale locale = Locale.default, ZoneId timeZoneId = ZoneId.systemDefault()) {
         if (!dateParserPattern)
             DATE_PATTERN = DateTimeFormatter.ISO_DATE_TIME
+                    .withLocale(locale)
+                    .withZone(timeZoneId ?: null)
         else
-            this.DATE_PATTERN = DateTimeFormatter
+            DATE_PATTERN = DateTimeFormatter
                     .ofPattern(dateParserPattern)
                     .withLocale(locale)
-                    .withZone(timeZoneId ?: ZoneId.systemDefault())
+                    .withZone(timeZoneId ?: null)
     }
 
     DateTimeFormatter getDatePattern() {
