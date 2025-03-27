@@ -67,7 +67,8 @@ jobs: # a collection of steps
               -c "$CIRCLE_SHA1" \
               -n "$VERSION" \
               -delete "$VERSION" \
-              ./build/libs/*.jar \
+              "$VERSION" \
+              ./build/libs/ \
               ./cyclonedx-sbom.tgz \
               ./test-report.tgz
 
