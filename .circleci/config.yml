@@ -58,8 +58,10 @@ jobs: # a collection of steps
           name: "Publish Release on GitHub"
           command: |
             VERSION=$(ls ./build/libs/*.jar | sed -r 's/.*RoddyToolLib-([[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+(-.+)?).jar/\1/')
-            tar -C build/reports/tests/ -cvzf test-report.tgz test/
-            tar -C build/reports/ -cvzf cyclonedx-sbom.tgz cyclonedx/
+            mkdir -p artifacts/
+            tar -C build/reports/tests/ -cvzf artifacts/test-report.tgz test/
+            tar -C build/reports/ -cvzf artifacts/cyclonedx-sbom.tgz cyclonedx/
+            cp build/libs/*.jar artifacts/
             ghr \
               -t "$GITHUB_TOKEN" \
               -u "$CIRCLE_PROJECT_USERNAME" \
@@ -68,9 +70,7 @@ jobs: # a collection of steps
               -n "$VERSION" \
               -delete \
               "$VERSION" \
-              ./build/libs/ \
-              ./cyclonedx-sbom.tgz \
-              ./test-report.tgz
+              artifacts/
 
 workflows:
   version: 2
