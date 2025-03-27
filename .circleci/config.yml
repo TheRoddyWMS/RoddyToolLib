@@ -66,7 +66,7 @@ jobs: # a collection of steps
               -r "$CIRCLE_PROJECT_REPONAME" \
               -c "$CIRCLE_SHA1" \
               -n "$VERSION" \
-              -delete "$VERSION" \
+              -delete \
               "$VERSION" \
               ./build/libs/ \
               ./cyclonedx-sbom.tgz \
