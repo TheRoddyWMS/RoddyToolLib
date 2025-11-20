@@ -57,6 +57,11 @@ Change log entries should have the form
    * patch: A change that does neither add a feature, nor breaks backwards compatibility
 ```
 
+* 2.6.0
+
+  - minor: Use Groovy 4.0.21 for building (from 2.4.21 before)
+  - patch: Updated some dependencies
+
 * 2.5.0
 
   - minor: Added `EscapableString` hierarchy to model shell-escapable strings and escaping.
