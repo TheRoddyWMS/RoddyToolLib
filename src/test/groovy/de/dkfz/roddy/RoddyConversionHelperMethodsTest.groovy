@@ -8,28 +8,35 @@ package de.dkfz.roddy.tools.conversion
 
 import de.dkfz.roddy.tools.RoddyConversionHelperMethods
 import groovy.transform.CompileStatic
-import groovy.util.slurpersupport.NodeChild
+import groovy.xml.XmlSlurper
+import groovy.xml.slurpersupport.NodeChild
+import org.junit.Test
 
 /**
  * Created by heinold on 14.07.16.
  */
 @CompileStatic
-class RoddyConversionHelperMethodsTest extends GroovyTestCase {
+class RoddyConversionHelperMethodsTest {
+
+    @Test
     void testToInt() {
         assert 1 == RoddyConversionHelperMethods.toInt("1")
         assert 1 == RoddyConversionHelperMethods.toInt("a0", 1)
     }
 
+    @Test
     void testToFloat() {
         assert 1.0f == RoddyConversionHelperMethods.toFloat("1.0")
         assert 1.0f == RoddyConversionHelperMethods.toFloat("a0", 1.0f)
     }
 
+    @Test
     void testToDouble() {
         assert 1.0d == RoddyConversionHelperMethods.toDouble("1.0")
         assert 1.0d == RoddyConversionHelperMethods.toDouble("a0", 1.0d)
     }
 
+    @Test
     void testToBoolean() {
         assert true == RoddyConversionHelperMethods.toBoolean("true", false)
         assert true == RoddyConversionHelperMethods.toBoolean("TRUE", false)
@@ -46,6 +53,7 @@ class RoddyConversionHelperMethodsTest extends GroovyTestCase {
         assert false == RoddyConversionHelperMethods.toBoolean("Flack", false)
     }
 
+    @Test
     void testIsInteger() {
         assert RoddyConversionHelperMethods.isInteger("1")
         assert RoddyConversionHelperMethods.isInteger("10")
@@ -57,6 +65,7 @@ class RoddyConversionHelperMethodsTest extends GroovyTestCase {
 
     }
 
+    @Test
     void testIsFloat() {
         assert RoddyConversionHelperMethods.isFloat("1")
         assert RoddyConversionHelperMethods.isFloat("1.0e10f")
@@ -70,6 +79,7 @@ class RoddyConversionHelperMethodsTest extends GroovyTestCase {
 
     }
 
+    @Test
     void testIsDouble() {
         assert RoddyConversionHelperMethods.isDouble("1")
         assert RoddyConversionHelperMethods.isDouble("1.0")
@@ -80,6 +90,7 @@ class RoddyConversionHelperMethodsTest extends GroovyTestCase {
         assert !RoddyConversionHelperMethods.isDouble("a")
     }
 
+    @Test
     void testIsNullOrEmpty() {
         assert RoddyConversionHelperMethods.isNullOrEmpty([])
         assert RoddyConversionHelperMethods.isNullOrEmpty((String) null)
@@ -91,6 +102,7 @@ class RoddyConversionHelperMethodsTest extends GroovyTestCase {
         assert !RoddyConversionHelperMethods.isNullOrEmpty([1])
     }
 
+    @Test
     void testIsDefinedArray() {
         assert !RoddyConversionHelperMethods.isDefinedArray(" ")    // false on whitespace-only string (no exception)
         assert RoddyConversionHelperMethods.isDefinedArray("( )")
@@ -122,6 +134,7 @@ class RoddyConversionHelperMethodsTest extends GroovyTestCase {
         return (NodeChild) new XmlSlurper().parseText("<test><a/></test>")
     }
 
+    @Test
     void testToFormattedXML() {
         assert RoddyConversionHelperMethods.toFormattedXML(buildNodeChild()) == "  <test>\n    <a/>\n  </test>"
     }

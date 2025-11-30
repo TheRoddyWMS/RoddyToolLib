@@ -8,7 +8,7 @@ package de.dkfz.roddy.tools
 
 import groovy.transform.CompileStatic
 import groovy.transform.TypeCheckingMode
-import groovy.util.slurpersupport.NodeChild
+import groovy.xml.slurpersupport.NodeChild
 import groovy.xml.StreamingMarkupBuilder
 import groovy.xml.XmlUtil
 
