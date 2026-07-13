@@ -10,7 +10,6 @@ import de.dkfz.roddy.core.InfoObject
 import de.dkfz.roddy.tools.LoggerWrapper
 import groovy.transform.CompileStatic
 
-import java.lang.reflect.Field
 import java.nio.charset.Charset
 import java.time.Duration
 import java.util.concurrent.*
@@ -25,10 +24,7 @@ class LocalExecutionHelper {
     private static final ExecutorService executorService = Executors.newCachedThreadPool()
 
     static Integer getProcessID(Process process) {
-        Field f = process.getClass().getDeclaredField("pid");
-        f.setAccessible(true);
-        Integer processID = f.get(process) as Integer
-        return processID
+        return process.pid() as Integer
     }
 
     /**
