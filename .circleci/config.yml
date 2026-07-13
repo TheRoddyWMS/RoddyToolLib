@@ -13,7 +13,11 @@ jobs: # a collection of steps
     executor: docker-executor
     resource_class: small
     steps:
-      - checkout # check out source code to working directory
+      - run:
+          name: Checkout code
+          command: |
+            git clone --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+            git checkout $CIRCLE_SHA1
       # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
       - restore_cache:
           key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
