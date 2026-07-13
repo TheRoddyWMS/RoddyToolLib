@@ -60,6 +60,7 @@ Change log entries should have the form
 * 3.0.0
 
   - major: Use Groovy 4.0.29 for building (from 2.4.21 before). This breaks bytecode/binary compatibility for consumers still running on Groovy 2.4.
+  - major: Dropped `DateTimeHelper` because it is not used anywhere.
   - patch: Updated `junit-vintage-engine` to 5.12.2, `commons-io` to 2.22.0, and `guava` to 33.6.0-jre to align with OTP's dependency versions.
 
 * 2.5.0
