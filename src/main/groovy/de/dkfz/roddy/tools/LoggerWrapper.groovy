@@ -164,8 +164,7 @@ class LoggerWrapper {
     }
 
     void severe(String text, Exception ex) {
-        log(Level.SEVERE, text)
-        log(Level.INFO, RoddyIOHelperMethods.getStackTraceAsString(ex))
+        log(Level.SEVERE, text + "\nStacktrace: " + RoddyIOHelperMethods.getStackTraceAsString(ex))
     }
 
     void warning(String text) {
