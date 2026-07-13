@@ -11,7 +11,7 @@ stages:
   - build
 
 build:
-  image: cimg/openjdk:8.0.322
+  image: cimg/openjdk:17.0.18
   stage: build
   # Reuse Gradle files and caches between jobs
   cache:
