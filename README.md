@@ -57,6 +57,11 @@ Change log entries should have the form
    * patch: A change that does neither add a feature, nor breaks backwards compatibility
 ```
 
+* 3.0.1
+
+  - patch: Replaced reflection-based PID lookup in `LocalExecutionHelper.getProcessID` with `Process.pid()`. Avoids requiring `--add-opens java.base/java.lang=ALL-UNNAMED` on JDK 9+ and works cleanly on every JDK from 9 up.
+  - patch: Added `LocalExecutionHelperSpec` test coverage for `getProcessID`.
+
 * 3.0.0
 
   - major: Use Groovy 4.0.29 for building (from 2.4.21 before). This breaks bytecode/binary compatibility for consumers still running on Groovy 2.4.
