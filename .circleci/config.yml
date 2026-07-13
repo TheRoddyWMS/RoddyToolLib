@@ -10,6 +10,7 @@ jobs: # a collection of steps
       # Configure the JVM and Gradle to avoid OOM errors
       _JAVA_OPTIONS: "-Xmx1800m"
       GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
+      CIRCLE_DISABLE_PARTIAL_CLONE: "1"
     executor: docker-executor
     resource_class: small
     steps:
