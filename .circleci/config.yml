@@ -14,6 +14,11 @@ jobs: # a collection of steps
     resource_class: small
     steps:
       - checkout # check out source code to working directory
+      - run:
+          name: Fetch all tags
+          # CircleCI's checkout step only fetches the triggering tag, not the full tag set,
+          # which makes `git describe` (used for the build version) resolve against a stale cache.
+          command: git fetch --tags --force
       # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
       - restore_cache:
           key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
