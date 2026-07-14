@@ -57,6 +57,11 @@ Change log entries should have the form
    * patch: A change that does neither add a feature, nor breaks backwards compatibility
 ```
 
+* 3.0.2
+
+  - patch: Bumped `sourceCompatibility`/`targetCompatibility` from Java 1.8 to 17 to match OTP and fix JitPack builds, which failed to compile `Process.pid()` (added in Java 9) under JitPack's default JDK 8. Added `jitpack.yml` pinning the build JDK to `openjdk17`.
+  - Note: `3.0.1` never produced a working artifact (JitPack build failure) and should not be used.
+
 * 3.0.1
 
   - patch: Replaced reflection-based PID lookup in `LocalExecutionHelper.getProcessID` with `Process.pid()`. Avoids requiring `--add-opens java.base/java.lang=ALL-UNNAMED` on JDK 9+ and works cleanly on every JDK from 9 up.
